@@ -1,0 +1,13 @@
+name: SimpleHub
+version: 1.0
+main: linareslinares\Hub
+api:
+- 5.0.0
+author: "LinaresFunado [ YT: @linareslinares ]"
+commands:
+  hub:
+    description: Regresa al Lobby
+    permission: simple.hub
+permissions:
+  simple.hub:
+    default: true
