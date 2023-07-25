@@ -1,0 +1,21 @@
+#PLUGIN BY LinaresFunado FREE PLUGIN!!!
+
+#My discord: linareslinares
+
+#My channel: https://youtube.com/@linareslinares
+
+#My MC server: astralmc.xyz / 19132 (default)
+
+#Server discord: https://discord.io/Astral-MC
+
+#Si el plugin tiene algun problema puedes comentarme en mi canal de YouTube y tambien puedes encontrar mas plugins en mi canal!!
+# ***************************************************************************************************************************************
+# permission: simple.hub [default]
+
+# clear Inventory, Armor and effects
+clear-inventory: false
+
+# Messages on command /hub
+titles: false
+Title: "✕ SimpleHub ✕"
+Sub-Title: "✕ ByLinaresFunado ✕"
