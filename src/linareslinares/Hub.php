@@ -28,6 +28,12 @@ class Hub extends PluginBase implements Listener {
         $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
         $config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
+
+        if (!empty($config->get("Lobby-name"))) {
+            $this->getServer()->getWorldManager()->loadWorld($config->get("Lobby-name"));
+        } else {
+            $this->getServer()->getLogger()->warning("Aun no esta fijado el mapa Lobby en los archivos..");
+        }
     }
 
     public function onPlayerLogin(PlayerLoginEvent $event){
@@ -50,10 +56,8 @@ class Hub extends PluginBase implements Listener {
             case "hub":
                 if($sender instanceof Player){
 					if ($sender->hasPermission("simple.hub")){
-						$world = $this->getServer()->getWorldManager()->getDefaultWorld();
                         $entity = $sender;
                         $pos = $entity->getPosition();
-                        $world = $entity->getWorld();
                         $clearInventory = $config->get("clear-inventory", false);
                         $title = $config->get("titles", false);
 
@@ -73,6 +77,7 @@ class Hub extends PluginBase implements Listener {
                         $sender->setHealth(20);
                         $sender->getHungerManager()->setFood(20);
 				        $sender->setGamemode(GameMode::SURVIVAL());
+                        $world = $this->getServer()->getWorldManager()->getWorldByName($this->getConfig()->get("Lobby-name"));
                         $sender->teleport($world->getSafeSpawn());
                         $world->addParticle($pos, new EndermanTeleportParticle());
                         $world->addParticle($pos, new EndermanTeleportParticle());
@@ -82,11 +87,31 @@ class Hub extends PluginBase implements Listener {
                         $this->BroadSound($sender, "mob.endermen.portal", 500, 1);
 
 					}
+
 				}
 
 				return false;
 			break;
         }
+
+        if($cmd->getName() === "sethub" && isset($args[0], $args[1])){
+            $config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+            $mapName = $args[1];
+            if(!isset($args[0])){
+                $sender->sendMessage(TE::YELLOW. "Usa /sethub set <map>");
+                return false;
+            }
+
+            if($sender->hasPermission("set.hub")){
+                if($args[0] === "set"){
+                    $config->set("Lobby-name", $mapName);
+                }else{
+                    $sender->sendMessage(TE::YELLOW. "Usa /sethub set <map>");
+                }
+                $config->save();
+            }
+        }
+        return false;
     }
 
     public static function PlaySound(Player $player, string $sound, int $volume, float $pitch){
