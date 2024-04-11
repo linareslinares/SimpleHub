@@ -15,6 +15,9 @@
 # clear Inventory, Armor and effects
 clear-inventory: false
 
+# Your lobby
+Lobby-name: []
+
 # Messages on command /hub
 titles: false
 Title: "✕ SimpleHub ✕"
